@@ -1,11 +1,20 @@
-#ifndef EVENT_MANAGER_H
-#define EVENT_MANAGER_H
+#ifndef EVENTMANAGER_H
+#define EVENTMANAGER_H
+
+#include <string>
+#include <windows.h>
 
 
-class Event_Manager
+typedef int EVENT_TYPE;
+
+class EventManager
 {
+    void getEvent(const std::string&, EVENT_TYPE);
+    void showEvent(const EVENTLOGRECORD*);
+
 public:
-    static void showEvents();
+    void run();
 };
 
-#endif // EVENT_MANAGER_H
+#endif // EVENTMANAGER_H
+
