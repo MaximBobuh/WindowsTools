@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <cmath>
 #include <algorithm>
+#include <fstream>
+
 #include "eventmanager.h"
 
 
@@ -12,8 +14,10 @@ void EventManager::getEvent(const std::string& logName, EVENT_TYPE type)
 {
     HANDLE hEventLog;
     EVENTLOGRECORD* eventInfo;
-    DWORD noteSize, nextNoteSize, eventLogCounter = 0;
+    DWORD noteSize, nextNoteSize;
     BYTE buffer[BUFFER_SIZE];
+
+    static int eventLogCounter = 0;
 
 
     hEventLog = OpenEventLog(NULL, std::wstring(logName.begin(), logName.end()).c_str());
@@ -21,7 +25,7 @@ void EventManager::getEvent(const std::string& logName, EVENT_TYPE type)
         std::cout << "Could not open event log!";
 
     eventInfo = (EVENTLOGRECORD*)&buffer;
-    GetOldestEventLogRecord(hEventLog, &eventLogCounter);
+    //GetOldestEventLogRecord(hEventLog, &eventLogCounter);
 
 
     while(ReadEventLog(hEventLog, EVENTLOG_FORWARDS_READ | EVENTLOG_SEQUENTIAL_READ,
@@ -31,7 +35,10 @@ void EventManager::getEvent(const std::string& logName, EVENT_TYPE type)
         {
             // Show event that contains a specified type.
             if(eventInfo->EventType & type)
+            {
+                std::cout << eventLogCounter++;
                 showEvent(eventInfo);
+            }
 
             noteSize -= eventInfo->Length;
             eventInfo = (EVENTLOGRECORD*)((LPBYTE)eventInfo + eventInfo->Length); // Next record.
@@ -46,15 +53,39 @@ void EventManager::getEvent(const std::string& logName, EVENT_TYPE type)
 
 void EventManager::showEvent(const EVENTLOGRECORD* record)
 {
-    static const std::string eventName[] = {"Error", "Warning", "Information",
-                                            "Success/Failure Audit"};
-    int nameIndex = log(record->EventType) / log(2);
+    static const std::wstring eventName[] = {L" Error", L"Warning", L"Information",
+                                            L"Success/Failure Audit"};
 
+    int nameIndex = log(record->EventType) / log(2);
     std::wstring sourceName(reinterpret_cast<const wchar_t*>(
                                 reinterpret_cast<const unsigned char*>(record) + sizeof(EVENTLOGRECORD)));
 
-    std::cout << "Event ID: " << std::setw(12) << record->EventID << "  EventType: " << eventName[nameIndex]
-              << "  Source: " << std::string(sourceName.begin(), sourceName.end()) << std::endl;
+    // Getting a description error by the error(warning) code.
+    wchar_t* errorMess = NULL;
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS|FORMAT_MESSAGE_FROM_SYSTEM,
+                  NULL, record->EventID, MAKELANGID(LANG_ENGLISH, SUBLANG_DEFAULT),
+                  (wchar_t*)&errorMess, 0, NULL);
+
+
+    if(errorMess == NULL)
+    {
+        errorMess = L"No description";
+    }
+
+    //----------------------------------
+
+
+    std::wcout << " Event ID: "  << record->EventID << "  EventType: " << eventName[nameIndex]
+               << "  Source: " << sourceName << std::endl
+               << "Description: " << errorMess << std::endl << std::endl;
+
+
+    std::wfstream file("report.txt", std::ios_base::out | std::ios_base::app);
+    file << " Event ID: " << record->EventID << "  EventType: " << eventName[nameIndex]
+         << "  Source: " << sourceName << std::endl
+         << "Description: " << errorMess << std::endl << std::endl;
+
+    LocalFree((void*)errorMess);
 }
 
 //----------------------------------------------------
