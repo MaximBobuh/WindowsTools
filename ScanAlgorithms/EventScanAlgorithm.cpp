@@ -108,9 +108,3 @@ void EventScanAlgorithm::showEvent(const EVENTLOGRECORD* record)
 }
 
 //----------------------------------------------------
-
-//void EventScanAlgorithm::run()
-//{
-//    getEvent("Application", EVENTLOG_ERROR_TYPE | EVENTLOG_WARNING_TYPE);
-//    getEvent("System", EVENTLOG_ERROR_TYPE | EVENTLOG_WARNING_TYPE);
-//}
