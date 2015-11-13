@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScanWindow</class>
+ <widget class="QWidget" name="ScanWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>825</width>
+    <height>441</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTreeWidget" name="treeWidget">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>3</y>
+     <width>173</width>
+     <height>397</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QTreeView::branch:closed:has-children:has-siblings {
+border-image: none;
+image: url(://../../../../Qt5/Qt5.5.0/5.5/Src/qtbase/src/widgets/doc/images/stylesheet-branch-open.png);
+}
+
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings {
+border-image: none;
+image: url(://../../../../Qt5/Qt5.5.0/5.5/Src/qtbase/src/widgets/doc/images/stylesheet-branch-open.png);
+}</string>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="columnCount">
+    <number>1</number>
+   </property>
+   <attribute name="headerVisible">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string notr="true">1</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QTreeWidget" name="treeResult">
+   <property name="geometry">
+    <rect>
+     <x>177</x>
+     <y>3</y>
+     <width>646</width>
+     <height>397</height>
+    </rect>
+   </property>
+   <property name="columnCount">
+    <number>3</number>
+   </property>
+   <attribute name="headerCascadingSectionResizes">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="headerDefaultSectionSize">
+    <number>100</number>
+   </attribute>
+   <attribute name="headerHighlightSections">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="headerMinimumSectionSize">
+    <number>100</number>
+   </attribute>
+   <attribute name="headerShowSortIndicator" stdset="0">
+    <bool>false</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>Problem</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Location</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Value Name</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>400</y>
+     <width>824</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>SCAN</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
