@@ -15,6 +15,7 @@ class Scanner : public QObject
 
 public:
     Scanner(ScanAlgorithm*);
+    ~Scanner();
 
 public slots:
     void slotStartScan();
