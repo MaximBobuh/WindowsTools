@@ -1,7 +1,4 @@
 #include <vector>
-#include <thread>
-#include <chrono>
-#include <QDebug>
 #include <QApplication>
 #include "Scanner.h"
 
@@ -55,5 +52,9 @@ void Scanner::analysisNotes(const QStringList& list)
         dialog->setNextFound();
     }
 }
+
+//-------------------------------------------------
+
+Scanner::~Scanner() { delete algorithm; }
 
 //-------------------------------------------------
