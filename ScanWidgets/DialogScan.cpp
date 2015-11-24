@@ -3,6 +3,8 @@
 #include "DialogScan.h"
 #include "ui_dialogscan.h"
 
+
+
 DialogScan::DialogScan(int s, QWidget *parent) :
     QDialog(parent), size(s), stop(false),
     ui(new Ui::DialogScan)
@@ -14,11 +16,15 @@ DialogScan::DialogScan(int s, QWidget *parent) :
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(slotStop()));
 }
 
+//----------------------------------------------------
 
 DialogScan::~DialogScan()
 {
     delete ui;
 }
+
+//----------------------------------------------------
+
 
 void DialogScan::closeEvent(QCloseEvent* ev)
 {
